@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Information</title>
+
+    {% load static %}
+    
+    <!-- Vendor CSS & JS (Preserved & Fixed) -->
+    <link rel="stylesheet" href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.min.js' %}" defer></script>
+
+    <!-- Modern Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-page: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --accent-color: #10b981;
+            --accent-hover: #059669;
+            --accent-ring: rgba(16, 185, 129, 0.15);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+            margin: 0;
+        }
+
+        .edit-wrapper {
+            width: 100%;
+            max-width: 720px;
+        }
+
+        .edit-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05), 
+                        0 8px 10px -6px rgba(15, 23, 42, 0.03);
+            padding: 2.5rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            color: var(--text-main);
+            margin-bottom: 0.65rem;
+        }
+
+        .page-header p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            max-width: 560px;
+            margin: 0 auto;
+        }
+
+        .form-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #334155;
+            margin-bottom: 0.45rem;
+        }
+
+        .form-control {
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            background-color: #ffffff;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .form-control::placeholder {
+            color: #94a3b8;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 4px var(--accent-ring);
+            outline: none;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 140px;
+        }
+
+        /* Status Messages (Hidden by default until triggered via JS/CSS) */
+        .status-feedback {
+            margin-bottom: 1.25rem;
+        }
+
+        .loading,
+        .error-message,
+        .sent-message {
+            display: none;
+            padding: 0.875rem 1rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .loading {
+            background-color: #f1f5f9;
+            color: #475569;
+            border: 1px solid #cbd5e1;
+        }
+
+        .error-message {
+            background-color: #fef2f2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+
+        .sent-message {
+            background-color: #ecfdf5;
+            color: #047857;
+            border: 1px solid #a7f3d0;
+        }
+
+        /* Active states if toggled via JS */
+        .loading.d-block, .error-message.d-block, .sent-message.d-block {
+            display: block;
+        }
+
+        /* Submit Button */
+        .btn-update {
+            background-color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
+            padding: 0.8rem 2.25rem;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);
+        }
+
+        .btn-update:hover,
+        .btn-update:focus {
+            background-color: var(--accent-hover);
+            border-color: var(--accent-hover);
+            color: #ffffff;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 12px -2px rgba(16, 185, 129, 0.28);
+        }
+
+        .btn-update:active {
+            transform: translateY(0);
+        }
+
+        @media (max-width: 576px) {
+            .edit-card {
+                padding: 1.75rem 1.25rem;
+                border-radius: 12px;
+            }
+
+            .btn-update {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <main class="edit-wrapper">
+        <div class="edit-card">
+            
+            <header class="page-header">
+                <h1>Edit Information</h1>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi velit vero assumenda iusto dolores sunt sequi adipisci fugiat culpa ut! Cum quas placeat neque alias sed debitis ullam voluptatum ducimus.</p>
+            </header>
+
+            <!-- Optional Django Messages Support -->
+            {% if messages %}
+                <div class="mb-4">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags|default:'info' }} rounded-3 mb-2" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <label for="name-field" class="form-label">Your Name</label>
+                        <input type="text" name="name" id="name-field" class="form-control" placeholder="e.g. Jane Doe" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="email-field" class="form-label">Your Email</label>
+                        <input type="email" name="email" id="email-field" class="form-control" placeholder="name@example.com" required>
+                    </div>
+
+                    <div class="col-12">
+                        <label for="subject-field" class="form-label">Subject</label>
+                        <input type="text" name="subject" id="subject-field" class="form-control" placeholder="Enter subject" required>
+                    </div>
+
+                    <div class="col-12">
+                        <label for="message-field" class="form-label">Message</label>
+                        <textarea name="message" id="message-field" class="form-control" rows="6" placeholder="Write your updated message here..." required></textarea>
+                    </div>
+
+                    <div class="col-12 mt-4">
+                        <div class="status-feedback">
+                            <div class="loading">Updating your information...</div>
+                            <div class="error-message"></div>
+                            <div class="sent-message">Your message has been sent. Thank you!</div>
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-outline-success btn-update">Update Information</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </main>
+
+</body>
+</html>
